@@ -10,7 +10,7 @@ app.use(express.json())
 
 console.log()
 
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const uri = `mongodb+srv://${process.env.USER_DB}:${process.env.PASSWORD_DB}@cluster0.v2v9b72.mongodb.net/?retryWrites=true&w=majority`;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -37,6 +37,14 @@ async function run() {
       res.send(result)
     })
 
+    // specific travel place find
+    app.get("/places/:id",async(req,res)=>{
+      const id = req.params.id;
+      const filter = {_id : new ObjectId(id)}
+      const result = await travelPlaceCollection.findOne(filter)
+      res.send(result)
+    })
+
     // users review get apis from database
     app.get("/reviews",async(req,res)=>{
       const result  = await reviewsCollection.find().toArray();
@@ -58,10 +66,6 @@ async function run() {
   }
 }
 run().catch(console.dir);
-
-
-
-
 
 app.get("/",(req,res)=>{
     res.send("travel agency is running")
