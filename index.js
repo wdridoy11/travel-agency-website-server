@@ -27,13 +27,27 @@ async function run() {
     // Connect the client to the server	(optional starting in v4.7)
     client.connect();
 
-    const travelPlaceCollection = client.db("travel-agency-BD").collection("travel_place");
+    const travelPlaceCollection = client.db("travel-agency-BD").collection("travel_places");
+    const reviewsCollection = client.db("travel-agency-BD").collection("reviews");
+    const blogsCollection = client.db("travel-agency-BD").collection("blogs");
 
+    // travel places get apis from database
     app.get("/places",async(req,res)=>{
       const result  = await travelPlaceCollection.find().toArray();
       res.send(result)
     })
 
+    // users review get apis from database
+    app.get("/reviews",async(req,res)=>{
+      const result  = await reviewsCollection.find().toArray();
+      res.send(result)
+    })
+
+    // users review get apis from database
+    app.get("/blogs",async(req,res)=>{
+      const result  = await blogsCollection.find().toArray();
+      res.send(result)
+    })
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
