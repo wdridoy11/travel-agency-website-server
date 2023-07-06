@@ -28,6 +28,7 @@ async function run() {
     client.connect();
 
     const travelPlaceCollection = client.db("travel-agency-BD").collection("travel_places");
+    const travelGalleryCollection = client.db("travel-agency-BD").collection("travel_gallery");
     const reviewsCollection = client.db("travel-agency-BD").collection("reviews");
     const blogsCollection = client.db("travel-agency-BD").collection("blogs");
 
@@ -42,6 +43,12 @@ async function run() {
       const id = req.params.id;
       const filter = {_id : new ObjectId(id)}
       const result = await travelPlaceCollection.findOne(filter)
+      res.send(result)
+    })
+
+    // travel Gallery get apis from database
+    app.get("/travelGallery",async(req,res)=>{
+      const result  = await travelGalleryCollection.find().toArray();
       res.send(result)
     })
 
